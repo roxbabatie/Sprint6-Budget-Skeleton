@@ -3,3 +3,5 @@ $(document).ready(function() {
         format: 'YYYY-MM-DD HH:mm'
     });
 });
+
+var app = angular.module('budgetingApp', []);
