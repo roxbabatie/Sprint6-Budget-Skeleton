@@ -14,7 +14,7 @@
 <body>
 <div class="container container-main" ng-controller="BalanceCtrl">
     <div class="page-header">
-        <h1>{{ balance | currency }}</h1>
+        <h1>{{ balance | currency:'' }}<small>RON</small</h1>
     </div>
     <div class="align-center">
         <div class="btn-group" role="group">
@@ -27,10 +27,15 @@
         <table class="table table-hover">
             <tbody>
                 <tr ng-repeat="item in transactions" ng-class="item.amount > 0 ? 'green' : 'red'">
-                <td>{{item.date | date:"MM @ h:mma"}}</td>
-                <td>{{item.description}}</td>
-                <td>{{item.amount}}</td>
+                    <td>{{item.date | date:"MM @ h:mma"}}</td>
+                    <td>{{item.description}}</td>
+                    <td>{{item.amount}}</td>
+                    <td width="40">
+                        <button type="button" ng-click = "deleteTransaction(item.id)" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-remove"></i>
+                        </button>
+                    </td>
             </tr>
+
             <!--<tr class="red">-->
                 <!--<td>4th @13:31</td>-->
                 <!--<td>Pizza</td>-->

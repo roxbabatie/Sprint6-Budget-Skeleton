@@ -7,6 +7,13 @@
         {name: 'Expense', url: 'expense'}
     ];
 
+    var totalBalance = function(items) {
+        var balance = 0;
+        angular.forEach(items, function(item){
+            balance += item.amount;
+        });
+        return balance;
+    }
     //configure angular app
     app.config(function($locationProvider, $routeProvider) {
         $locationProvider.html5Mode({
@@ -15,7 +22,6 @@
         });
 
         angular.forEach(pages, function(page) {
-            console.log('/' + page.url + '.html');
             $routeProvider.when('/' + page.url, {
                 templateUrl: 'pages/' + (!page.url ? 'balance' : page.url) + '.html',
             })
@@ -32,7 +38,16 @@
 
         TransactionStore.getTransactionsInMonth(moment().format('YYYY-MM')).then(function(items) {
             $scope.transactions = items;
+            $scope.balance = totalBalance(items);
         });
+        $scope.deleteTransaction = function (id) {
+            TransactionStore.delete(id).then(function (items) {
+                TransactionStore.getTransactionsInMonth(moment().format('YYYY-MM')).then(function(items) {
+                    $scope.transactions = items;
+                    $scope.balance = totalBalance(items);
+                });
+            });
+        };
     });
 
     //create services
