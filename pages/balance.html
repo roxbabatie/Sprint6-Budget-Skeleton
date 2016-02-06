@@ -12,9 +12,9 @@
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-<div class="container container-main">
+<div class="container container-main" ng-controller="BalanceCtrl">
     <div class="page-header">
-        <h1>2,174.50 <small>RON</small></h1>
+        <h1>{{ balance | currency }}</h1>
     </div>
     <div class="align-center">
         <div class="btn-group" role="group">
@@ -26,30 +26,35 @@
     <div class="table-container">
         <table class="table table-hover">
             <tbody>
-            <tr class="red">
-                <td>4th @13:31</td>
-                <td>Pizza</td>
-                <td>-20.00</td>
-                <td width="40"><button type="button" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-remove"></i></button></td>
+                <tr ng-repeat="item in transactions" ng-class="item.amount > 0 ? 'green' : 'red'">
+                <td>{{item.date | date:"MM @ h:mma"}}</td>
+                <td>{{item.description}}</td>
+                <td>{{item.amount}}</td>
             </tr>
-            <tr class="red">
-                <td>2nd @21:18</td>
-                <td>Iesire in oras</td>
-                <td>-40.00</td>
-                <td width="40"><button type="button" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-remove"></i></button></td>
-            </tr>
-            <tr class="red">
-                <td>1st @14:34</td>
-                <td>Cumparaturi</td>
-                <td>-132.54</td>
-                <td width="40"><button type="button" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-remove"></i></button></td>
-            </tr>
-            <tr class="green">
-                <td>1st @10:00</td>
-                <td>Salariu</td>
-                <td>+2,500.00</td>
-                <td width="40"><button type="button" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-remove"></i></button></td>
-            </tr>
+            <!--<tr class="red">-->
+                <!--<td>4th @13:31</td>-->
+                <!--<td>Pizza</td>-->
+                <!--<td>-20.00</td>-->
+                <!--<td width="40"><button type="button" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-remove"></i></button></td>-->
+            <!--</tr>-->
+            <!--<tr class="red">-->
+                <!--<td>2nd @21:18</td>-->
+                <!--<td>Iesire in oras</td>-->
+                <!--<td>-40.00</td>-->
+                <!--<td width="40"><button type="button" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-remove"></i></button></td>-->
+            <!--</tr>-->
+            <!--<tr class="red">-->
+                <!--<td>1st @14:34</td>-->
+                <!--<td>Cumparaturi</td>-->
+                <!--<td>-132.54</td>-->
+                <!--<td width="40"><button type="button" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-remove"></i></button></td>-->
+            <!--</tr>-->
+            <!--<tr class="green">-->
+                <!--<td>1st @10:00</td>-->
+                <!--<td>Salariu</td>-->
+                <!--<td>+2,500.00</td>-->
+                <!--<td width="40"><button type="button" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-remove"></i></button></td>-->
+            <!--</tr>-->
             </tbody>
         </table>
     </div>
