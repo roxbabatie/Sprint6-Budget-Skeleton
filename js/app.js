@@ -19,11 +19,6 @@
         });
         return balance;
     }
-    var greaterThan = function(prop, val){
-        return function(item){
-            return item[prop] > val;
-        }
-    }
     //configure angular app
     app.config(function($locationProvider, $routeProvider) {
         $locationProvider.html5Mode({
@@ -38,7 +33,7 @@
         });
 
         $routeProvider.otherwise({
-            templateUrl: 'pages/balance.html',
+            templateUrl: 'pages/balance.html'
         });
     });
     //controllers
