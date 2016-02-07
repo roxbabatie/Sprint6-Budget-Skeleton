@@ -7,6 +7,11 @@
         {name: 'Expense', url: 'expense'}
     ];
 
+    var resetTransaction = {
+        date: "",
+        description: "",
+        amount: ""
+    }
     var totalBalance = function(items) {
         var balance = 0;
         angular.forEach(items, function(item){
@@ -48,6 +53,16 @@
                 });
             });
         };
+    });
+    app.controller('IncomeCtrl', function($scope, TransactionStore) {
+        $scope.addTransaction = resetTransaction;
+        $scope.add = function() {
+            TransactionStore.add($scope.addTransaction).then(function () {
+                $scope.addTransaction.date = "";
+                $scope.addTransaction.amount = "";
+                $scope.addTransaction.description = "";
+            });
+        }
     });
 
     //create services
