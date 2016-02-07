@@ -65,6 +65,18 @@
         }
     });
 
+    app.controller('ExpenseCtrl', function($scope, TransactionStore) {
+        $scope.addTransaction = resetTransaction;
+        $scope.add = function() {
+            $scope.addTransaction.amount =  -$scope.addTransaction.amount;
+            TransactionStore.add($scope.addTransaction).then(function () {
+                $scope.addTransaction.date = "";
+                $scope.addTransaction.amount = "";
+                $scope.addTransaction.description = "";
+            });
+        }
+
+    });
     //create services
     app.factory('TransactionStore', function($http, $q) {
         return (function() {
