@@ -19,6 +19,11 @@
         });
         return balance;
     }
+    var greaterThan = function(prop, val){
+        return function(item){
+            return item[prop] > val;
+        }
+    }
     //configure angular app
     app.config(function($locationProvider, $routeProvider) {
         $locationProvider.html5Mode({
@@ -53,6 +58,17 @@
                 });
             });
         };
+
+        $scope.greaterThan = function(prop, val){
+            return function(item){
+                return item[prop] > val;
+            };
+        }
+        $scope.lessThan = function(prop, val){
+            return function(item){
+                return item[prop] <= val;
+            };
+        }
     });
     app.controller('IncomeCtrl', function($scope, TransactionStore) {
         $scope.addTransaction = resetTransaction;

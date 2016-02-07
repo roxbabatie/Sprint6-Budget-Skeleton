@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <!--#286090=bck-->
+    <!--border = 204d74-->
+
     <title>Budget App</title>
 
     <meta charset="UTF-8">
@@ -17,17 +20,18 @@
         <h1>{{ balance | currency:'' }}<small>RON</small</h1>
     </div>
     <div class="align-center">
-        <div class="btn-group" role="group">
-            <a href="" class="btn btn-primary">Balance</a>
-            <a href="" class="btn btn-default">Income</a>
-            <a href="" class="btn btn-default">Spendings</a>
+        <div class="btn-group" role="group" ng-init="tab=1">
+            <a href="" class="btn btn-primary" ng-class="{active:tab===1}" ng-click="tab=1">Balance</a>
+            <a href="" class="btn btn-default"  ng-class="{active:tab===2}"  ng-click="tab=2">Income</a>
+            <a href="" class="btn btn-default"  ng-class="{active:tab===3}" ng-click="tab=3">Spendings</a>
         </div>
     </div>
-    <div class="table-container">
+
+    <div class="table-container" ng-show="tab===1">
         <table class="table table-hover">
             <tbody>
                 <tr ng-repeat="item in transactions" ng-class="item.amount > 0 ? 'green' : 'red'">
-                    <td>{{item.date | date:"MM @ h:mma"}}</td>
+                    <td>{{item.date}}</td>
                     <td>{{item.description}}</td>
                     <td>{{item.amount}}</td>
                     <td width="40">
@@ -35,31 +39,36 @@
                         </button>
                     </td>
             </tr>
-
-            <!--<tr class="red">-->
-                <!--<td>4th @13:31</td>-->
-                <!--<td>Pizza</td>-->
-                <!--<td>-20.00</td>-->
-                <!--<td width="40"><button type="button" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-remove"></i></button></td>-->
-            <!--</tr>-->
-            <!--<tr class="red">-->
-                <!--<td>2nd @21:18</td>-->
-                <!--<td>Iesire in oras</td>-->
-                <!--<td>-40.00</td>-->
-                <!--<td width="40"><button type="button" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-remove"></i></button></td>-->
-            <!--</tr>-->
-            <!--<tr class="red">-->
-                <!--<td>1st @14:34</td>-->
-                <!--<td>Cumparaturi</td>-->
-                <!--<td>-132.54</td>-->
-                <!--<td width="40"><button type="button" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-remove"></i></button></td>-->
-            <!--</tr>-->
-            <!--<tr class="green">-->
-                <!--<td>1st @10:00</td>-->
-                <!--<td>Salariu</td>-->
-                <!--<td>+2,500.00</td>-->
-                <!--<td width="40"><button type="button" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-remove"></i></button></td>-->
-            <!--</tr>-->
+            </tbody>
+        </table>
+    </div>
+    <div class="table-container" ng-show="tab===2">
+        <table class="table table-hover">
+            <tbody>
+            <tr ng-repeat="item in transactions | filter: greaterThan('amount', 0)" >
+                <td>{{item.date}}</td>
+                <td>{{item.description}}</td>
+                <td>{{item.amount}}</td>
+                <td width="40">
+                    <button type="button" ng-click = "deleteTransaction(item.id)" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-remove"></i>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="table-container" ng-show="tab===3">
+        <table class="table table-hover">
+            <tbody>
+            <tr ng-repeat="item in transactions | filter: lessThan('amount', 0)">
+                <td>{{item.date}}</td>
+                <td>{{item.description}}</td>
+                <td>{{item.amount}}</td>
+                <td width="40">
+                    <button type="button" ng-click = "deleteTransaction(item.id)" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-remove"></i>
+                    </button>
+                </td>
+            </tr>
             </tbody>
         </table>
     </div>
