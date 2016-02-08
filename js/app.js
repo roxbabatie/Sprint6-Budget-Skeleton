@@ -11,7 +11,8 @@
         date: "",
         description: "",
         amount: ""
-    }
+    };
+
     var totalBalance = function(items) {
         var balance = 0;
         angular.forEach(items, function(item){
@@ -25,26 +26,23 @@
             enabled: true,
             requireBase: false
         });
-
         angular.forEach(pages, function(page) {
             $routeProvider.when('/' + page.url, {
                 templateUrl: 'pages/' + (!page.url ? 'balance' : page.url) + '.html',
             })
         });
-
         $routeProvider.otherwise({
             templateUrl: 'pages/balance.html'
         });
     });
     //controllers
-
     app.controller('BalanceCtrl', function($scope, TransactionStore) {
         $scope.transactions = [];
-
         TransactionStore.getTransactionsInMonth(moment().format('YYYY-MM')).then(function(items) {
             $scope.transactions = items;
             $scope.balance = totalBalance(items);
         });
+
         $scope.deleteTransaction = function (id) {
             TransactionStore.delete(id).then(function (items) {
                 TransactionStore.getTransactionsInMonth(moment().format('YYYY-MM')).then(function(items) {
@@ -65,6 +63,28 @@
             };
         }
     });
+
+    app.filter('FilteredTransaction', function() {
+        return function(items, state) {
+            var filteredItems = [];
+
+            angular.forEach(items, function(item) {
+               if (0 > item.amount && state === "expense") {
+                   filteredItems.push(item);
+                   return filteredItems;
+               } else if (0 < item.amount && state === "income") {
+                   filteredItems.push(item);
+                   return filteredItems;
+               } else if (state === "balance") {
+                   filteredItems.push(item);
+                   return filteredItems;
+               }
+            });
+            return filteredItems;
+        }
+
+    })
+
     app.controller('IncomeCtrl', function($scope, TransactionStore) {
         $scope.addTransaction = resetTransaction;
         $scope.add = function() {
